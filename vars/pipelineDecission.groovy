@@ -1,8 +1,8 @@
 #!groovy
 
 def decidePipeline(Map configMap){
-    appication = configMap.get("application")
-    switch(appication) {
+    application = configMap.get("application")
+    switch(application) {
         case 'nodejsVM':
             nodejsVM(configMap)
         break
@@ -13,7 +13,7 @@ def decidePipeline(Map configMap){
             nodejsEKS(configMap)
         break
         default:
-           echo "No pipeline found for application ${appication}"
+           echo "No pipeline found for application ${application}"
            echo "aplication is not recongnised"
         break
     }
