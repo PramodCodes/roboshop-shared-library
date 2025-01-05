@@ -1,4 +1,3 @@
-// Jenkinsfile (Declarative Pipeline) 
 def call(Map configMap){
     pipeline{
         agent {
