@@ -21,7 +21,8 @@ def call(Map configMap){
         // this can be used across pipeline
         environment {
             packageVersion = ''
-            nexusURL = '172.31.92.207:8081'
+            //maintain from global vars
+            // nexusURL = '172.31.92.207:8081'
         }
         //build stages
         
@@ -61,7 +62,7 @@ def call(Map configMap){
                 steps {
                     sh """
                     ls -lart
-                    zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+                    zip -q -r ${configMap.component}.zip ./* -x ".git" -x "*.zip"
                     ls -lart
 
                     """
@@ -72,15 +73,15 @@ def call(Map configMap){
                         nexusArtifactUploader(
                         nexusVersion: 'nexus3',
                         protocol: 'http',
-                        nexusUrl: "${nexusURL}",
+                        nexusUrl: pipelineGlobals.nexusURL(),
                         groupId: 'com.roboshop',
                         version: "${packageVersion}",
-                        repository: 'catalogue',
+                        repository: "${configMap.component}",
                         credentialsId: 'nexus-auth',
                         artifacts: [
-                            [artifactId: 'catalogue',
+                            [artifactId: "${configMap.component}",
                             classifier: '',
-                            file: 'catalogue.zip',
+                            file: "${configMap.component}.zip",
                             type: 'zip']
                         ])
                 }
@@ -94,7 +95,7 @@ def call(Map configMap){
                         }
                     }
                     script{
-                        build job: 'catalogue-deploy',wait: true,
+                        build job: "${configMap.component}-deploy",wait: true,
                         parameters: [
                             string(name: 'version', value: "${packageVersion}"),
                             string(name: 'environment', value: 'dev')]
