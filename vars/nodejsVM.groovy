@@ -94,6 +94,11 @@ def call(Map configMap){
                     }
                 }
             steps {
+                sh """
+                    pwd
+                    echo 'deploying application'
+                    ls -lart
+                """
                 script {
                     build job: "${configMap.component}-deploy",
                     wait: true,
