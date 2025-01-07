@@ -87,21 +87,39 @@ def call(Map configMap){
                 }
                 
             }
+            // stage('Deploy') {
+            //     steps {
+            //         when {
+            //             expression {
+            //                 params.Deploy == true
+            //             }
+            //         }
+            //         script{
+            //             build job: "${configMap.component}-deploy",wait: true,
+            //             parameters: [
+            //                 string(name: 'version', value: "${packageVersion}"),
+            //                 string(name: 'environment', value: 'dev')]
+            //         }
+            //     }
+            // }
             stage('Deploy') {
-                steps {
-                    when {
-                        expression {
-                            params.Deploy == true
-                        }
-                    }
-                    script{
-                        build job: "${configMap.component}-deploy",wait: true,
-                        parameters: [
-                            string(name: 'version', value: "${packageVersion}"),
-                            string(name: 'environment', value: 'dev')]
+                when {
+                    expression {
+                        params.Deploy == true
                     }
                 }
+            steps {
+                script {
+                    build job: "${configMap.component}-deploy",
+                    wait: true,
+                    parameters: [
+                        string(name: 'version', value: "${packageVersion}"),
+                        string(name: 'environment', value: 'dev')
+                    ]
+                }
             }
+        }
+
         }
 
 
