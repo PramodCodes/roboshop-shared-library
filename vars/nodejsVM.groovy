@@ -64,12 +64,17 @@ def call(Map configMap){
                     ls -lart
                     zip -q -r ${configMap.component}.zip ./* -x ".git" -x "*.zip"
                     ls -lart
-
+                    pwd
                     """
                 }
             }
             stage('publish artifacts') {
                 steps {
+                       sh """
+                        ls -lart
+                        pwd
+                        echo 'publishing artifacts'
+                        """
                         nexusArtifactUploader(
                         nexusVersion: 'nexus3',
                         protocol: 'http',
