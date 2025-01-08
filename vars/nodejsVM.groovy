@@ -61,10 +61,10 @@ def call(Map configMap){
             stage('Build') {
                 steps {
                     sh """
-                    ls -lart
                     zip -q -r ${configMap.component}.zip ./* -x ".git" -x "*.zip"
-                    ls -lart
+                    echo "build completed in following path" 
                     pwd
+                    ls -lart
                     """
                 }
             }
