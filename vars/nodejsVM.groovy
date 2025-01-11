@@ -22,7 +22,7 @@ def call(Map configMap){
         environment {
             packageVersion = ''
             //maintain from global vars
-            // nexusURL = '172.31.92.207:8081'
+            // nexusURL = 'nexus.pka.in.net:8081'
         }
         //build stages
         
